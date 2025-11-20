@@ -14,6 +14,6 @@ class COMPLEXDESIGNPROJECT_API AMainCharacter : public ACharacter
 public:
 	
 	AMainCharacter();
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 
 };

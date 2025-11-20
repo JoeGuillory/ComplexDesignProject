@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "MainCharacterController.generated.h"
 
+class UInputAction;
+class UInputMappingContext;
 /**
  * 
  */
@@ -15,6 +17,15 @@ class COMPLEXDESIGNPROJECT_API AMainCharacterController : public APlayerControll
 	GENERATED_BODY()
 public:
 	AMainCharacterController();
-	
+private:
+	void BeginPlay() override;
+	virtual void SetupInputComponent() override;
+	void OnClick();
+protected:
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category="Input")
+	TObjectPtr<UInputMappingContext> MappingContext;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category="Input")
+	TObjectPtr<UInputAction> ClickAction;
 	
 };
