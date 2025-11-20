@@ -4,9 +4,9 @@
 #include "MainCharacterController.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
-#include "InputMappingContext.h"
 #include "InputAction.h"
-#include "NavigationSystem.h"
+
+#include "Blueprint/AIBlueprintHelperLibrary.h"
 
 AMainCharacterController::AMainCharacterController()
 {
@@ -15,7 +15,7 @@ AMainCharacterController::AMainCharacterController()
 void AMainCharacterController::BeginPlay()
 {
 	Super::BeginPlay();
-
+	SetShowMouseCursor(true);
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		Subsystem->AddMappingContext(MappingContext,0);
@@ -28,12 +28,19 @@ void AMainCharacterController::SetupInputComponent()
 	
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
 	{
-		EnhancedInputComponent->BindAction(ClickAction, ETriggerEvent::Completed,this,OnClick);
+		EnhancedInputComponent->BindAction(ClickAction, ETriggerEvent::Completed,this,&AMainCharacterController::OnClick);
 	}
 	
 }
 
 void AMainCharacterController::OnClick()
 {
-	UEngine::AddOnScreenDebugMessage(0,10,FColor::Red,TEXT("Input Setup Works"));
+	//StopMovement();
+	FHitResult HitResult;
+	GetHitResultUnderCursor(ECC_Visibility,false,HitResult);
+	if (HitResult.bBlockingHit)
+	{
+		UAIBlueprintHelperLibrary::SimpleMoveToLocation(this,HitResult.ImpactPoint);
+	}
+	
 }

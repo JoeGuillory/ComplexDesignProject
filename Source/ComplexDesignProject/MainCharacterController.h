@@ -21,6 +21,7 @@ private:
 	void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 	void OnClick();
+	
 protected:
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category="Input")
 	TObjectPtr<UInputMappingContext> MappingContext;
